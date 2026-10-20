@@ -1,10 +1,11 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import Login from "./pages/Login";
-import Cadastro from "./pages/Cadastro";
-import Cards from "./pages/Cards";
-import Detalhes from "./pages/Detalhes";
+import Semana from "./pages/Semana";
+import Treino from "./pages/Treino";
+import Historico from "./pages/Historico";
 import { cores } from "./theme";
 
 const Stack = createStackNavigator();
@@ -19,27 +20,26 @@ const cabecalho = {
 
 export default function Routes() {
   return (
-    <Stack.Navigator initialRouteName="login" screenOptions={cabecalho}>
+    <Stack.Navigator initialRouteName="semana" screenOptions={cabecalho}>
       <Stack.Screen
-        name="login"
-        component={Login}
-        options={{ title: "LOGIN", headerLeft: () => null }}
+        name="semana"
+        component={Semana}
+        options={({ navigation }) => ({
+          title: "MEU TREINO",
+          headerLeft: () => null,
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("historico")}
+              style={{ paddingHorizontal: 12 }}
+              accessibilityLabel="Ver histórico"
+            >
+              <MaterialIcons name="history" size={24} color={cores.branco} />
+            </TouchableOpacity>
+          ),
+        })}
       />
-      <Stack.Screen
-        name="cadastro"
-        component={Cadastro}
-        options={{ title: "CADASTRAR USUÁRIO" }}
-      />
-      <Stack.Screen
-        name="cards"
-        component={Cards}
-        options={{ title: "POKÉCARDS", headerLeft: () => null, gestureEnabled: false }}
-      />
-      <Stack.Screen
-        name="detalhes"
-        component={Detalhes}
-        options={{ title: "DETALHES" }}
-      />
+      <Stack.Screen name="treino" component={Treino} options={{ title: "TREINO" }} />
+      <Stack.Screen name="historico" component={Historico} options={{ title: "HISTÓRICO" }} />
     </Stack.Navigator>
   );
 }
